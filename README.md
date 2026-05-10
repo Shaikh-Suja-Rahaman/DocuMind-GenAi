@@ -10,6 +10,10 @@
   [![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178C6?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
   [![NVIDIA NIM](https://img.shields.io/badge/AI_Engine-NVIDIA_NIM-76B900?style=flat-square&logo=nvidia)](https://build.nvidia.com/)
 
+  <br />
+  
+  **[✨ View Live Demo Here ✨](https://docu-mind-gen-ai.vercel.app/)**
+
 </div>
 
 ---
@@ -52,8 +56,8 @@ Follow these instructions to run the project on your local machine.
 Clone the repository and install the required dependencies:
 
 ```bash
-git clone <repository-url>
-cd notebooklm-rag-pro
+git clone https://github.com/Shaikh-Suja-Rahaman/DocuMind-GenAi.git
+cd DocuMind-GenAi
 pnpm install
 ```
 
