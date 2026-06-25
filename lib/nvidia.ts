@@ -17,6 +17,9 @@ const EMBED_MODEL = "nvidia/nv-embedqa-e5-v5"
 // and ability to strictly adhere to document-based context.
 const CHAT_MODEL = "meta/llama-3.1-70b-instruct"
 
+// Llama 3.1 8B is used for lightweight tasks like query rewriting and relevance judging.
+export const SMALL_CHAT_MODEL = "meta/llama-3.1-8b-instruct"
+
 function getApiKey(): string | null {
   return process.env.NVIDIA_API_KEY || null
 }
@@ -172,4 +175,43 @@ export async function* streamChat(messages: ChatMessage[]): AsyncGenerator<strin
       }
     }
   }
+}
+
+/**
+ * Perform a standard, non-streaming chat completion.
+ */
+export async function chat(messages: ChatMessage[], model: string = CHAT_MODEL, maxTokens = 1024): Promise<string> {
+  const key = getApiKey()
+  if (!key) {
+    console.warn("NVIDIA_API_KEY missing, using mock chat response")
+    return "Mock response for " + messages[messages.length - 1].content
+  }
+
+  const res = await fetch(`${NVIDIA_BASE_URL}/chat/completions`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${key}`,
+    },
+    body: JSON.stringify({
+      model,
+      messages,
+      temperature: 0.1, // low temp for tasks like query rewriting
+      top_p: 0.9,
+      max_tokens: maxTokens,
+      stream: false,
+      chat_template_kwargs: { thinking: false },
+    }),
+  })
+
+  if (!res.ok) {
+    const body = await res.text().catch(() => "")
+    throw new Error(`Chat completion failed (${res.status}): ${body}`)
+  }
+
+  const json = await res.json() as {
+    choices: Array<{ message: { content: string } }>
+  }
+  
+  return json.choices[0].message.content
 }

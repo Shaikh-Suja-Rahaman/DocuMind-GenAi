@@ -25,14 +25,35 @@
 ## ✨ Key Features
 
 - **Minimalist Premium UI**: A clean, distraction-free monochrome interface designed for extended research sessions.
-- **Precision Retrieval**: Built on a deterministic semantic pipeline powered by `nv-embedqa-e5-v5` embeddings.
+- ✅ **Query Rewriting** using a lightweight LLM
+- ✅ **Corrective Retrieval** with automatic retry
+- ✅ **LLM-as-a-Judge** for relevance validation
+- ✅ **Chunk Re-ranking** before generation
+- ✅ **Grounded responses** with source citations
 - **Enterprise-Grade AI**: Orchestrated with **Meta Llama 3.1 70B Instruct** via the NVIDIA NIM platform for unparalleled reasoning capabilities.
-- **Real-Time Citations**: Every response includes precise, click-to-view source evidence referencing the exact chunks of your uploaded documents.
 - **Zero Configuration Fallback**: Seamlessly degrades to mock-responses if you just want to test the UI without an API key.
 
 ## 🏗️ Architecture
 
 At its core, DocuMind bridges the gap between fast front-end interactions and heavy machine-learning workflows:
+
+```text
+User Query
+      │
+Query Rewriting
+      │
+Semantic Embedding
+      │
+Vector Retrieval
+      │
+LLM-based Relevance Judge
+      │
+Corrective Retrieval (Retry if needed)
+      │
+Chunk Re-ranking
+      │
+Grounded Response Generation
+```
 
 | Layer | Technology | Purpose |
 | :--- | :--- | :--- |
